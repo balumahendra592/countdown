@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Tenor+Sans&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+    --ivory: #fdf8f0;
+    --blush: #f2d9d0;
+    --deep: #2c1f1a;
+    --rose: #d4857a;
+  }
+
+  body {
+    font-family: 'Tenor Sans', sans-serif;
+    background: var(--deep);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Animated background orbs */
+  .bg {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 30%, #3d1f1a 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 70%, #1a1525 0%, transparent 60%),
+                radial-gradient(ellipse 100% 100% at 50% 50%, #1e1510 0%, #0d0a08 100%);
+  }
+
+  .orb {
+    position: fixed; border-radius: 50%;
+    filter: blur(80px); opacity: 0.35;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb1 { width: 500px; height: 500px; background: radial-gradient(circle, #c9a96e33, transparent 70%); top: -10%; left: -10%; animation-delay: 0s; }
+  .orb2 { width: 400px; height: 400px; background: radial-gradient(circle, #d4857a33, transparent 70%); bottom: -10%; right: -5%; animation-delay: -3s; }
+  .orb3 { width: 300px; height: 300px; background: radial-gradient(circle, #f2d9d033, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(20px, -30px) scale(1.05); }
+    66% { transform: translate(-15px, 20px) scale(0.95); }
+  }
+
+  /* Particle dots */
+  .particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .particle {
+    position: absolute; width: 2px; height: 2px;
+    background: var(--gold-light); border-radius: 50%;
+    opacity: 0; animation: sparkle linear infinite;
+  }
+  @keyframes sparkle {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    20% { opacity: 0.7; transform: translateY(-20px) scale(1); }
+    100% { opacity: 0; transform: translateY(-120px) scale(0.3); }
+  }
+
+  /* Decorative lines */
+  .deco-line {
+    width: 1px; background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 0 auto;
+  }
+
+  /* Main card */
+  .card {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 60px 50px;
+    max-width: 680px;
+    width: 90vw;
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 80px rgba(201,169,110,0.08), inset 0 0 40px rgba(255,255,255,0.02);
+    animation: fadeUp 1.2s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Corner ornaments */
+  .card::before, .card::after {
+    content: ''; position: absolute;
+    width: 30px; height: 30px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.5;
+  }
+  .card::before { top: 16px; left: 16px; border-width: 1px 0 0 1px; }
+  .card::after  { bottom: 16px; right: 16px; border-width: 0 1px 1px 0; }
+
+  .eyebrow {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0.8;
+    animation: fadeUp 1.2s 0.2s ease both;
+  }
+
+  .title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1.15;
+    margin-bottom: 10px;
+    animation: fadeUp 1.2s 0.35s ease both;
+  }
+  .title em {
+    font-style: italic;
+    color: var(--gold-light);
+    font-weight: 300;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: rgba(242, 217, 208, 0.65);
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+    animation: fadeUp 1.2s 0.5s ease both;
+  }
+
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 0 auto 40px;
+    width: 240px;
+    animation: fadeUp 1.2s 0.55s ease both;
+  }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(201,169,110,0.4)); }
+  .divider-line.right { background: linear-gradient(to left, transparent, rgba(201,169,110,0.4)); }
+  .divider span { color: var(--gold); font-size: 14px; opacity: 0.7; }
+
+  /* Timer */
+  .timer {
+    display: flex; gap: 12px; justify-content: center;
+    margin-bottom: 40px;
+    animation: fadeUp 1.2s 0.7s ease both;
+  }
+
+  .unit {
+    flex: 1; max-width: 110px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(201,169,110,0.18);
+    border-radius: 4px;
+    padding: 20px 10px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .unit::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,110,0.5), transparent);
+  }
+
+  .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-weight: 300;
+    color: var(--ivory);
+    line-height: 1;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  .num.flip { transform: scale(0.85); opacity: 0.4; }
+
+  .label {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-top: 8px;
+    display: block;
+  }
+
+  .names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: rgba(232, 213, 176, 0.55);
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+    animation: fadeUp 1.2s 0.85s ease both;
+  }
+
+  .date-line {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(201, 169, 110, 0.45);
+    animation: fadeUp 1.2s 0.95s ease both;
+  }
+
+  /* Zero message */
+  .zero-msg {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-style: italic;
+    color: var(--gold-light);
+    text-align: center;
+    animation: zeroReveal 2s ease forwards;
+    margin: 16px 0;
+  }
+  @keyframes zeroReveal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Petal floaters */
+  .petals { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+  .petal {
+    position: absolute; font-size: 10px; opacity: 0;
+    animation: petalFall linear infinite;
+    color: var(--rose);
+  }
+  @keyframes petalFall {
+    0% { opacity: 0; transform: translateY(-20px) rotate(0deg); }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(100vh) rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="particles" id="particles"></div>
+<div class="petals" id="petals"></div>
+
+<div class="card">
+  <p class="eyebrow">A love story begins</p>
+
+  <h1 class="title">The Beginning<br>of <em>Forever</em></h1>
+  <p class="subtitle">Counting down every second until we say I Do</p>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span>❧</span>
+    <div class="divider-line right"></div>
+  </div>
+
+  <div class="timer" id="timer">
+    <div class="unit"><span class="num" id="days">00</span><span class="label">Days</span></div>
+    <div class="unit"><span class="num" id="hours">00</span><span class="label">Hours</span></div>
+    <div class="unit"><span class="num" id="mins">00</span><span class="label">Minutes</span></div>
+    <div class="unit"><span class="num" id="secs">00</span><span class="label">Seconds</span></div>
+  </div>
+
+  <div class="zero-msg" id="zeroMsg">
+    Today, we become one. 💍
+  </div>
+
+  <p class="names">Until we say "I Do"</p>
+  <p class="date-line">April 3rd, 2026 &nbsp;·&nbsp; 8:41 PM</p>
+</div>
+
+<script>
+  // Particles
+  const pCont = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${4+Math.random()*8}s;animation-delay:${-Math.random()*12}s;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;opacity:${0.3+Math.random()*0.5}`;
+    pCont.appendChild(p);
+  }
+
+  // Petals
+  const petCont = document.getElementById('petals');
+  const petalChars = ['✿','❀','✾','❁','⚘'];
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalChars[Math.floor(Math.random()*petalChars.length)];
+    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${10+Math.random()*15}s;animation-delay:${-Math.random()*20}s;font-size:${8+Math.random()*10}px;`;
+    petCont.appendChild(p);
+  }
+
+  // Countdown
+  const target = new Date('2026-04-03T20:41:00').getTime();
+
+  function pad(n) { return String(n).padStart(2,'0'); }
+
+  function tick() {
+    const now = Date.now();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      ['days','hours','mins','secs'].forEach(id => document.getElementById(id).textContent = '00');
+      document.getElementById('timer').style.opacity = '0.3';
+      document.getElementById('zeroMsg').style.display = 'block';
+      return;
+    }
+
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+
+    const secEl = document.getElementById('secs');
+    const prev = secEl.textContent;
+    const newVal = pad(s);
+    if (prev !== newVal) {
+      secEl.classList.add('flip');
+      setTimeout(() => { secEl.textContent = newVal; secEl.classList.remove('flip'); }, 150);
+    }
+
+    document.getElementById('days').textContent = pad(d);
+    document.getElementById('hours').textContent = pad(h);
+    document.getElementById('mins').textContent = pad(m);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
